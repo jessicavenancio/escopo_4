@@ -1,0 +1,247 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de estudos",
+        "version": "1.0.0",
+        "description": "API para gerenciamento de pedidos e entregadores"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/",
+            "description": "Servidor local"
+        }
+    ],
+    "paths": {
+        "/pedidos": {
+            "post": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "description": "Cria um novo pedido",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Pedido"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pedido criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Pedido"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "summary": "Retorna a lista de todos os pedidos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Pedido"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                }
+            }
+        },
+        "/pedidos/{id}": {
+            "get": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "summary": "Buscar um pedido por ID",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do pedido a ser buscado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pedido encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Pedido"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "summary": "Atualiza um pedido existente",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Pedido"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do pedido a ser atualizado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pedido atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Pedido"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "summary": "Exclui um pedido pelo seu ID",
+                "description": "Exclui um pedido existente pelo seu ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do pedido a ser excluído.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pedido excluído com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Pedido"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pedido não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Pedido": {
+                "type": "object",
+                "properties": {
+                    "produto": {
+                        "type": "string",
+                        "maxLength": 150,
+                        "description": "Nome do produto",
+                        "minLength": 1
+                    },
+                    "valor": {
+                        "type": "string",
+                        "format": "decimal",
+                        "description": "Valor do produto",
+                        "minimum": 0
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Status do pedido",
+                        "enum": [
+                            "novo",
+                            "processando",
+                            "enviado",
+                            "entregue"
+                        ]
+                    },
+                    "txEntrega": {
+                        "type": "string",
+                        "description": "Taxa de entrega",
+                        "minimum": 0
+                    },
+                    "cliente": {
+                        "type": "string",
+                        "maxLength": 150,
+                        "description": "Nome do cliente",
+                        "minLength": 1
+                    },
+                    "endereco": {
+                        "type": "string",
+                        "maxLength": 150,
+                        "description": "Endereço de entrega",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "produto",
+                    "valor",
+                    "status",
+                    "cliente",
+                    "endereco"
+                ],
+                "additionalProperties": false
+            }
+        }
+    }
+}
