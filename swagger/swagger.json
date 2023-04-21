@@ -1,0 +1,533 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de estudos",
+    "version": "1.0.0",
+    "description": "API para gerenciamento de pedidos e entregadores"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "Servidor local"
+    }
+  ],
+  "paths": {
+    "/pedidos": {
+      "post": {
+        "tags": ["Pedidos"],
+        "summary": "Buscar todos os pedidos",
+        "description": "Cria um novo pedido",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pedido"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pedido criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pedido"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Pedidos"],
+        "summary": "Retorna a lista de todos os pedidos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pedido"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/pedidos/{id}": {
+      "get": {
+        "tags": ["Pedidos"],
+        "summary": "Buscar um pedido por ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do pedido a ser buscado",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pedido"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Pedidos"],
+        "summary": "Atualiza um pedido existente",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pedido"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do pedido a ser atualizado",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pedido"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Pedidos"],
+        "summary": "Exclui um pedido pelo seu ID",
+        "description": "Exclui um pedido existente pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do pedido a ser excluído.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido excluído com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pedido"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/entregador": {
+      "post": {
+        "tags": ["Entregador"],
+        "summary": "Criar um novo entregador",
+        "description": "",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Entregador"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pedido criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entregador"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Entregador"],
+        "summary": "Lista todos os entregadores",
+        "responses": {
+          "200": {
+            "description": "Lista de todos os entregadores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Entregador"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/entregadores/{id}/pedidos/{idPedido}": {
+      "put": {
+        "tags": ["Relacionar pedido & entrega"],
+        "summary": "Vincula um pedido a um entregador",
+        "description": "Esta rota é utilizada para vincular um pedido a um entregador específico.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do entregador",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "idPedido",
+            "in": "path",
+            "description": "ID do pedido",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido vinculado ao entregador com sucesso!",
+            "schema": {
+              "$ref": "#/components/schemas/SuccessResponse"
+            }
+          },
+          "404": {
+            "description": "Entregador ou pedido não encontrado!",
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Aconteceu um erro.",
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/entregador/{id}": {
+      "get": {
+        "tags": ["Entregador"],
+        "summary": "Obtém um entregador pelo ID",
+        "description": "Retorna um entregador pelo ID informado na URL.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do entregador a ser obtido",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entregador encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entregador"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entregador não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Entregador"],
+        "summary": "Atualiza um entregador pelo ID",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Entregador"
+              }
+            }
+          }
+        },
+        "description": "Atualiza os dados de um entregador pelo ID informado na URL.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do entregador a ser atualizado",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entregador atualizado com sucesso"
+          },
+          "404": {
+            "description": "Entregador não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Entregador"],
+        "summary": "Exclui um entregador pelo ID",
+        "description": "Exclui um entregador pelo ID informado na URL.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do entregador a ser excluído",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entregador excluído com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Entregador"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entregador não encontrado"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/entregadores/placa": {
+      "get": {
+        "tags": ["Filtragem"],
+        "summary": "Lista de entregadores por placa",
+        "description": "Lista entregadores filtrando pela placa do veículo.",
+        "parameters": [
+          {
+            "name": "placa",
+            "in": "query",
+            "description": "Placa do veículo do entregador.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de entregadores.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Entregador"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao listar entregadores."
+          }
+        }
+      }
+    },
+    "/pedido/cod": {
+      "get": {
+        "tags": ["Filtragem"],
+        "summary": "Lista de pedidos por código",
+        "description": "Retorna a lista de pedidos filtrados por código informado na URL.",
+        "parameters": [
+          {
+            "name": "cod",
+            "in": "query",
+            "description": "Código do pedido a ser buscado",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de pedidos encontrados.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pedido"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pedido": {
+        "type": "object",
+        "properties": {
+          "produto": {
+            "type": "string",
+            "maxLength": 150,
+            "description": "Nome do produto",
+            "minLength": 1
+          },
+          "valor": {
+            "type": "string",
+            "format": "decimal",
+            "description": "Valor do produto",
+            "minimum": 0
+          },
+          "status": {
+            "type": "string",
+            "description": "Status do pedido",
+            "enum": ["novo", "processando", "enviado", "entregue"]
+          },
+          "txEntrega": {
+            "type": "string",
+            "description": "Taxa de entrega",
+            "minimum": 0
+          },
+          "cliente": {
+            "type": "string",
+            "maxLength": 150,
+            "description": "Nome do cliente",
+            "minLength": 1
+          },
+          "endereco": {
+            "type": "string",
+            "maxLength": 150,
+            "description": "Endereço de entrega",
+            "minLength": 1
+          }
+        },
+        "required": ["produto", "valor", "status", "cliente", "endereco"],
+        "additionalProperties": false
+      },
+      "Entregador": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "maxLength": 150
+          },
+          "telefone": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "placa": {
+            "type": "string",
+            "maxLength": 50
+          }
+        },
+        "required": ["nome", "telefone", "placa"],
+        "additionalProperties": false
+      },
+      "Delete": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string"
+          }
+        },
+        "required": ["nome", "telefone", "placa"],
+        "additionalProperties": false
+      }
+    }
+  }
+}

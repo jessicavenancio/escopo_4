@@ -1,44 +1,30 @@
-//tabela
-const { DataTypes } = require("sequelize");
-const { connection } = require("./database");
-const Sequelize = require("sequelize");
+const { connection } = require("./database"); // Importa a conexão com o banco de dados
+const Sequelize = require("sequelize"); // Importa a biblioteca Sequelize para criar o modelo da tabela
+const Pedido = require("./pedido"); // Importa o modelo da tabela de pedidos
 
-const Pedido = require("./pedido");
-
-const Entregador = connection.define("entregador", {
-    //num = id
+const Entregador = connection.define(
+  "entregador", // Define o nome da tabela
+  {
     nome: {
-        type: Sequelize.STRING(150),
-        allowNull: false,
-        validate: {
-            len: [1, 150],
-        },
+      type: Sequelize.STRING(150), // Define o tipo e tamanho da coluna "nome"
+      allowNull: false, // Define que essa coluna não pode ser nula
     },
     telefone: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-        validate: {
-            isNumeric: true,
-            len: [10, 15],
-        },
+      type: Sequelize.STRING(50), // Define o tipo e tamanho da coluna "telefone"
+      allowNull: false, // Define que essa coluna não pode ser nula
     },
     placa: {
-        type: Sequelize.STRING(150),
-        allowNull: false,
-        unique: true,
-        validate: {
-            len: [7],
-            isUppercase: true,
-        },
+      type: Sequelize.STRING(150), // Define o tipo e tamanho da coluna "placa"
+      allowNull: false, // Define que essa coluna não pode ser nula
+      unique: true, // Define que essa coluna tem um valor único na tabela
     },
-},
-    {
-        //passa o paranoid como atributo
-        paranoid: true
-    }
+  },
+  {
+    paranoid: true, // Define que a tabela terá soft delete, ou seja, registros não serão deletados fisicamente
+  }
 );
 
-Entregador.hasMany(Pedido, { onDelete: "CASCADE" });
-Pedido.belongsTo(Entregador);
+Entregador.hasMany(Pedido, { onDelete: "CASCADE" }); // Define que um entregador pode ter vários pedidos
+Pedido.belongsTo(Entregador); // Define que um pedido pertence a um entregador
 
-module.exports = Entregador;
+module.exports = Entregador; // Exporta o modelo da tabela de entregadores
