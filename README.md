@@ -3,10 +3,13 @@ Um projeto academico da SoulCode - Backend API
 
 <h4 align="center"> 🚧  Backend-API-SouCode 🚀 ...  🚧</h4>
 ### Equipe Devs...<img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30"> <br />
-- Jéssica Venâncio
-- Lucas Leão
-- Lucas Damasnceno
-- Raphael 
+
+- Jéssica Venâncio <br />
+- Lucas Leão <br />
+- Gabriela Mazetto <br />
+- Lucas Damasnceno <br />
+- Raphael Gomes <br />
+- Mikel Menardi <br />
 
 ### Tecnologias & Linguagens
 
