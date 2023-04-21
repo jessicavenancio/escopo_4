@@ -13,7 +13,7 @@ Um projeto academico da SoulCode - Backend API
 ### Tecnologias & Linguagens
 |![](https://img.shields.io/badge/-JavaScript-black?logo=javascript&style=plastic)|![](https://img.shields.io/badge/-NodeJs-black?logo=nodedotjs&style=plastic)|![](https://img.shields.io/badge/-Git-black?logo=git&style=plastic)|![](https://img.shields.io/badge/-Express-black?logo=express&style=plastic)|![](https://img.shields.io/badge/-Swagger-black?logo=swagger&style=plastic)|
 |---|---|---|---|---|
-|![](https://img.shields.io/badge/-MySQL-black?logo=mysql&style=plastic)|![](https://img.Postman.io/badge/-postman-black?logo=javascript&style=plastic)|![](https://img.shields.io/badge/-Node-black?logo=nodedotjs&style=plastic)|![](https://img.shields.io/badge/-C++-black?logo=cplusplus&style=plastic)|![](https://img.shields.io/badge/-Arduino-black?logo=arduino&style=plastic)|
+|![](https://img.shields.io/badge/-MySQL-black?logo=mysql&style=plastic)|![](https://img.shields.io/badge/-Postman-black?logo=postman&style=plastic)|![](https://img.shields.io/badge/-Node-black?logo=nodedotjs&style=plastic)|![](https://img.shields.io/badge/-C++-black?logo=cplusplus&style=plastic)|![](https://img.shields.io/badge/-Arduino-black?logo=arduino&style=plastic)|
 
 
 
